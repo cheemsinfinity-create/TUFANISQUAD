@@ -290,7 +290,8 @@ return 0;
 #./p2b2 2 3 5 7
 
 
-3a
+3a Implement the C program for CPU Scheduling Algorithms: Shortest Job First
+(Preemptive) and Round Robin with different arrival time.
 #include <stdio.h>
 
 struct process {
@@ -459,7 +460,7 @@ int main() {
     return 0;
 }
 
-#4 a
+#4 a A. Thread synchronization using counting semaphores. Application to demonstrate: producerconsumer problem with counting semaphores and mutex.
 gcc p4.c -o p4 -pthread
 
 #include <stdio.h>
@@ -518,7 +519,7 @@ int main() {
 }
 
 
-#4b
+#4b Thread synchronization and mutual exclusion using mutex. Application to demonstrate: ReaderWriter problem with reader priority.
 gcc 4b.c -o 4b -pthread
 
 #include <stdio.h>
@@ -576,7 +577,7 @@ int main() {
     return 0;
 }
 
-5 
+5  Implement the C program forDeadlock Avoidance Algorithm: Bankers Algorithm.
 # Enter the number of processes: 2  
 Enter the number of resources: 2  
 Enter the available resources (e.g., R1 R2): 1 3  
@@ -691,7 +692,7 @@ int main() {
     return 0;
 }
 
-#6
+#6 Implement the C program for Page Replacement Algorithms: FCFS, LRU, andOptimal for frame size as minimum three.
 # Enter the number of processes: 4
 Enter the number of resources: 3
 Enter the available resources (one count per resource type):
@@ -815,7 +816,13 @@ int main() {
     return 0;
 }
 
-7a 
+7a  Inter process communication in Linux using following.
+A. FIFOS: Full duplex communication between two independent processes. First process accepts
+sentences and writes on one pipe to be read by second process and second process counts number of
+characters, number of words and number of lines in accepted sentences, writes this output in a text file
+and writes the contents of the file on second pipe to be read by first process and displays on standard
+output. 
+
 # a-23@a23-ThinkCentre-neo-50t-Gen-3:~$ ./p7aa
 Process 1: Enter a sentence: inter process communication
 Process 1: Result from Process 2 -
@@ -902,7 +909,10 @@ int main() {
     return 0;
 }
 
-7b 1
+7b 1 B. Inter-process Communication using Shared Memory using System V. Application to demonstrate:
+Client and Server Programs in which server process creates a shared memory segment and writes the
+message to the shared memory segment. Client process reads the message from the shared memory
+segment and displays it to the screen.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -995,7 +1005,8 @@ int main(void) {
     return 0;
 }
 
-p81
+p81  Implement the C program for Disk Scheduling Algorithms: SSTF, SCAN, C-Look
+considering the initial head position moving away from the spindle.
 
 #include <stdio.h>
 #include <stdlib.h>    // for abs()
@@ -1062,7 +1073,7 @@ int main(void) {
 Enter disk requests: 23 89 132 42 87
 Enter initial head position: 50
 
-p82
+p82 SCAN
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1139,7 +1150,7 @@ int main(void) {
     return 0;
 }
 
-#p 8 3
+#p 8 3 C-Look
 #include <stdio.h>
 #include <stdlib.h>
 void c_look(int requests[], int num_requests, int head, int direction) {
