@@ -2,7 +2,7 @@ import pandas as pd
 
 # Load the dataset
 df = pd.read_csv("E:/11/practical data sets/Mall_Customers.csv")
-
+ 
 # Inspect dataset
 print("Shape:", df.shape)
 print("\nColumns:", df.columns)
