@@ -1,5 +1,5 @@
 import pandas as pd
-
+ 
 # Load the temperature dataset
 df = pd.read_csv("E:/11/practical data sets/temperatures.csv")
 
