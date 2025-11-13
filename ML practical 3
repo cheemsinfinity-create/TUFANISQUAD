@@ -1,0 +1,57 @@
+import pandas as pd
+
+# Load dataset
+df = pd.read_csv("E:/11/practical data sets/Admission_Predict.csv")
+
+# Quick look at data
+print("Shape of dataset:", df.shape)
+print("\nColumns:", df.columns)
+df.head()
+# Rename target column for convenience if needed
+df.rename(columns={"Chance of Admit ": "Admitted"}, inplace=True)
+
+# Convert to 0/1 (consider 0.5 threshold if needed)
+df["Admitted"] = df["Admitted"].apply(lambda x: 1 if x >= 0.5 else 0)
+
+# Check for missing values
+print("\nMissing values:\n", df.isnull().sum())
+
+# Select relevant features
+features = ["GRE Score", "TOEFL Score", "University Rating", "SOP", "LOR ", "CGPA", "Research"]
+X = df[features]
+y = df["Admitted"]
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+print("Training set:", X_train.shape)
+print("Testing set :", X_test.shape)
+from sklearn.tree import DecisionTreeClassifier
+
+# Create and train the model
+dtree = DecisionTreeClassifier(random_state=42)
+dtree.fit(X_train, y_train)
+
+# Predict on test set
+y_pred = dtree.predict(X_test)
+# Print first 10 predictions
+print("First 10 predictions:", y_pred[:10])
+
+# Optional: check accuracy on test set
+accuracy = dtree.score(X_test, y_test)
+print("Accuracy on test set:", accuracy)
+from sklearn.metrics import confusion_matrix, classification_report
+
+# Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:\n", cm)
+
+# Classification report
+report = classification_report(y_test, y_pred)
+print("\nClassification Report:\n", report)
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(20,10))
+plot_tree(dtree, feature_names=features, class_names=["Not Admitted","Admitted"], filled=True)
+plt.show()
