@@ -1,0 +1,82 @@
+# Practical 1 - Heart Dataset Analysis and Confusion Matrix Metrics
+
+# ------------------------------
+# Step 1: Import Libraries
+# ------------------------------
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+# ------------------------------
+# Step 2: Load Dataset
+# ------------------------------
+# If the CSV is in the same folder as notebook
+df = pd.read_csv("heart.csv")
+
+# OR use full path if it's elsewhere, e.g.:
+# df = pd.read_csv("E:/11/practical data sets/heart.csv")
+
+# ------------------------------
+# Step (a) - Shape of Data
+# ------------------------------
+print("Shape of dataset (rows, columns):", df.shape)
+
+# ------------------------------
+# Step (b) - Missing Values
+# ------------------------------
+print("\nMissing values in each column:\n", df.isnull().sum())
+
+# ------------------------------
+# Step (c) - Data Types
+# ------------------------------
+print("\nData types of each column:\n", df.dtypes)
+
+# ------------------------------
+# Step (d) - Count of Zeros
+# ------------------------------
+print("\nNumber of zeros in each column:\n", (df == 0).sum())
+
+# ------------------------------
+# Step (e) - Mean Age of Patients
+# ------------------------------
+mean_age = df['Age'].mean()
+print("\nMean age of patients:", mean_age)
+
+# ------------------------------
+# Step (f) - Extract Columns and Split Data
+# ------------------------------
+columns = ['Age', 'Sex', 'ChestPain', 'RestBP', 'Chol']
+data_subset = df[columns]
+
+train_data, test_data = train_test_split(data_subset, test_size=0.25, random_state=42)
+
+print("\nTraining data shape:", train_data.shape)
+print("Testing data shape:", test_data.shape)
+print("\nFirst few rows of training data:\n", train_data.head())
+
+# ------------------------------
+# Confusion Matrix and Metrics
+# ------------------------------
+# Given data
+TP = 45
+FP = 100 - 45
+FN = 50 - 45
+TN = 500 - (TP + FP + FN)
+
+# Confusion Matrix
+conf_matrix = pd.DataFrame([[TP, FP],
+                            [FN, TN]],
+                           columns=['Predicted Positive', 'Predicted Negative'],
+                           index=['Actual Positive', 'Actual Negative'])
+print("\nConfusion Matrix:\n", conf_matrix)
+
+# Evaluation Metrics
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+f1_score = 2 * (precision * recall) / (precision + recall)
+
+print("\nEvaluation Metrics:")
+print(f"Accuracy:  {accuracy:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall:    {recall:.2f}")
+print(f"F1 Score:  {f1_score:.2f}")
