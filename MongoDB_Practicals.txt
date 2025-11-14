@@ -1,0 +1,100 @@
+use collegeDB
+db.createCollection("students")
+
+db.students.insertOne({
+  name: "Amit",
+  age: 21,
+  course: "BCA",
+  marks: 85,
+  city: "Pune"
+})
+
+db.students.insertMany([
+  { name: "Riya", age: 20, course: "BBA", marks: 78, city: "Mumbai" },
+  { name: "Rahul", age: 22, course: "BSc", marks: 90, city: "Delhi" },
+  { name: "Sneha", age: 23, course: "BCA", marks: 60, city: "Nashik" },
+  { name: "Karan", age: 21, course: "BBA", marks: 55, city: "Pune" }
+])
+
+db.students.insertOne({ name: "Test", marks: "eighty" })
+
+db.students.deleteOne({ name: "Test" })
+db.students.deleteMany({ city: "Pune" })
+
+db.students.replaceOne(
+  { name: "Riya" },
+  { name: "Riya", age: 21, course: "MBA", marks: 82, city: "Mumbai" }
+)
+
+db.students.updateOne(
+  { name: "Amit" },
+  { $set: { marks: 90 }, $inc: { age: 1 } }
+)
+
+db.students.updateOne(
+  { name: "Anjali" },
+  { $set: { course: "MCA", marks: 88 } },
+  { upsert: true }
+)
+
+db.students.updateMany(
+  { course: "BBA" },
+  { $set: { course: "MBA" } }
+)
+
+db.students.findOneAndUpdate(
+  { name: "Amit" },
+  { $set: { marks: 95 } },
+  { returnDocument: "after" }
+)
+
+db.students.find()
+db.students.findOne({ name: "Rahul" })
+db.students.find({ marks: { $gt: 70 } })
+db.students.find({ $or: [ { city: "Delhi" }, { city: "Mumbai" } ] })
+db.students.find({ marks: { $not: { $lt: 60 } } })
+db.students.find({ phone: null })
+db.students.find({ name: { $regex: /^S/ } })
+db.students.insertOne({ name: "Vikram", hobbies: ["reading", "sports", "music"] })
+db.students.find({ hobbies: "music" })
+db.students.find({ $where: "this.marks > 80" })
+db.students.find().sort({ marks: -1 }).limit(3).skip(1)
+
+
+use companyDB
+db.createCollection("employees")
+
+db.employees.insertMany([
+  { name: "Amit", dept: "HR", salary: 40000 },
+  { name: "Riya", dept: "IT", salary: 60000 },
+  { name: "Rahul", dept: "IT", salary: 55000 },
+  { name: "Sneha", dept: "Finance", salary: 50000 },
+  { name: "Karan", dept: "HR", salary: 42000 },
+  { name: "Vikram", dept: "Finance", salary: 48000 }
+])
+
+db.employees.aggregate([
+  { $group: { _id: "$dept", avgSalary: { $avg: "$salary" }, totalEmployees: { $sum: 1 } } }
+])
+
+db.employees.aggregate([
+  { $match: { salary: { $gt: 45000 } } },
+  { $project: { name: 1, dept: 1, salary: 1, bonus: { $multiply: [ "$salary", 0.1 ] } } },
+  { $sort: { salary: -1 } }
+])
+
+var mapFunction = function() {
+  emit(this.dept, this.salary)
+}
+var reduceFunction = function(key, values) {
+  return Array.sum(values)
+}
+db.employees.mapReduce(mapFunction, reduceFunction, { out: "dept_salary_total" })
+db.dept_salary_total.find()
+
+db.employees.createIndex({ dept: 1 })
+db.employees.createIndex({ salary: -1 })
+db.employees.getIndexes()
+
+db.employees.dropIndex({ dept: 1 })
+db.employees.getIndexes()
